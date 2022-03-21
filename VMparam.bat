@@ -1,0 +1,1 @@
+-Dsbt.ivy.home=D:\sbt\.ivy
