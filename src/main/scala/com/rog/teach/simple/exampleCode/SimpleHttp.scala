@@ -1,4 +1,4 @@
-package com.rog.teach.simple.simpleCode
+package com.rog.teach.simple.exampleCode
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._

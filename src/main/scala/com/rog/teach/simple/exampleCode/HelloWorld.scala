@@ -1,4 +1,4 @@
-package com.rog.teach.simple.simpleCode
+package com.rog.teach.simple.exampleCode
 
 object HelloWorld extends App {
   println("Hello world")
