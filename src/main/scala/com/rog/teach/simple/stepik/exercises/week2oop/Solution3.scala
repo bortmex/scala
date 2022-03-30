@@ -1,4 +1,5 @@
 package com.rog.teach.simple.stepik.exercises.week2oop
+
 //Ваша задача - реализовать два класса: Button и RoundedButton.
 //
 //  Для класса Button
@@ -12,8 +13,9 @@ package com.rog.teach.simple.stepik.exercises.week2oop
 //  предусмотрите наледование от Button
 //  реализуйте метод click, который похож на родительский метод click, но в отличие от него содержит слово rounded перед button: rounded button -label- has been clicked
 object Solution3 extends App {
-  class Button(label:String) {
+  class Button(label: String) {
     def this() = this("test")
+
     def click(): String = s"button -${label}- has been clicked"
   }
 
