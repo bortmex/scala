@@ -1,6 +1,6 @@
 package com.rog.teach.simple.stepik.exercises.week2oop
 
-object Solution5 {
+object Solution5 extends App {
 //  Перед вами код, доставшийся вам от коллеги, успевшего поработать над задачей до вашего прихода. Ознакомившись с кодом, вы обнаруживаете, что чего-то в коде не хватает. Видимо, часть изменений, внесенных в код, не сохранилась.
 //
 //  Ваша задача - исправить имеющиеся в коде недочеты:
@@ -44,6 +44,11 @@ object Solution5 {
 
     override def info(): Unit = println(s"Account Type: ${Configs.ACCOUNT_TYPE_DEFAULT}")
   }
+
+  val subs = new FreeAccount("123", Settings.AccountSettings("email", "password", "picture"))
+  subs subscribe Settings.SubscriptionSettings("asd","asd","as")
+  val settings1: Settings.SubscriptionSettings = Settings.SubscriptionSettings("asd", "asd", "as")
+  println(settings1)
 
   class PaidAccount(
     accountID: String,
