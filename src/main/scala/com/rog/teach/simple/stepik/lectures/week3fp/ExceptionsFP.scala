@@ -1,53 +1,26 @@
 package com.rog.teach.simple.stepik.lectures.week3fp
 
-import scala.annotation.tailrec
+import scala.util.Try
 
 object ExceptionsFP extends App{
-  @tailrec
-  def nTimes(f: Int => Int, x: Int,  n: Int): Int = {
-    if (n <= 0) x
-    else nTimes(f, f(x), n - 1)
-  }
-  val increment = (x: Int) => x + 1
 
-  println(nTimes(increment, 0, 3))
+  def unsafeMethod(): String = throw new RuntimeException("Sorry, not your day")
 
-  def curryingNTimes(f: Int => Int, n: Int): Int => Int = {
-    if (n <= 0) (x: Int) => x // лямбда-функция, что просто берет и возвращает значение
-    else (x: Int) => curryingNTimes(f, n-1)(f(x))
+  val anotherPotentialFailure = Try {
+    Try(unsafeMethod())
+    "another failure"
   }
 
-  println(curryingNTimes(increment, 3)(0))
-
-  def createURL(baseURL: String, path: String) = s"https://${baseURL}/${path}"
-
-  createURL("stepik.org", "login" )
-  createURL("stepik.org", "contact" )
-  createURL("mail.google.com", "login")
-
-  def createURL(baseURL: String) = (path: String) => s"https://${baseURL}/${path}"
-
-  val stepikURL =  createURL("stepik.org")
-  val googleURL = createURL("mail.google.com")
-
-  stepikURL("login")
-  stepikURL("contact")
-
-  googleURL("login")
+  println(anotherPotentialFailure)
 
 
-//  тип A => B - это синоним типа Function1[A, B]
-//  тип (A1, A2) => B - синоним для Function2[A1, A2, B]
-//  A => B => C - это то же самое, что Function1[A, Function1[B, C]]
-  def someFunc = (x:Int) => (y: Int) => x + y
 
+  //def firstMethod(): Try[String] = Try(new RuntimeException("Ooops..."))
+  def firstMethod(): Try[RuntimeException] = Try(new RuntimeException("Ooops..."))
 
-  def someFunc1: Int => Function1[Int, Int] = new Function1[Int, Function1[Int, Int]] {
-    override def apply(x: Int): Function1[Int, Int] = new Function1[Int, Int] {
-      override def apply(y: Int): Int = x + y
-    }
-  }
+  def secondMethod(): Try[String] = Try("Everything is OK")
 
-  val res = someFunc1(1)
+  val res = firstMethod() orElse secondMethod()
+
   println(res)
 }
