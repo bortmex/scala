@@ -24,5 +24,7 @@ object Collections extends App {
   val sampleTuple = new Tuple2(2, "Hello, World")
   println(sampleTuple.copy(_2 = "Scala").swap._1 + 5) // => Scala5
 
+  val map = Map(1 -> "Qwe", 2 -> "45")
+  map.filter((entry: (Int, String)) => entry._1 < 2).foreach(print)
 
 }
