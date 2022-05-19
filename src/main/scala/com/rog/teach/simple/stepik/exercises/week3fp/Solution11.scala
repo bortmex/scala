@@ -12,20 +12,6 @@ package com.rog.teach.simple.stepik.exercises.week3fp
 //  постарайтесь реализовать хвостовую рекурсию для метода collectLeaves
 object Solution11 extends App {
 
-  case object TreeEnd extends BinaryTree[Nothing] {
-    override def value: Nothing = throw new NoSuchElementException
-
-    override def leftChild: BinaryTree[Nothing] = throw new NoSuchElementException
-
-    override def rightChild: BinaryTree[Nothing] = throw new NoSuchElementException
-
-    override def isEmpty: Boolean = true
-
-    override def isLeaf: Boolean = false
-
-    override def collectLeaves: List[BinaryTree[Nothing]] = List()
-  }
-
   abstract class BinaryTree[+T] {
     def value: T
 
@@ -38,6 +24,30 @@ object Solution11 extends App {
     def isLeaf: Boolean
 
     def collectLeaves: List[BinaryTree[T]]
+
+    def countLeaves: Int
+
+    def nodesAtLevel(level: Int): List[BinaryTree[T]]
+  }
+
+  case object TreeEnd extends BinaryTree[Nothing] {
+    override def value: Nothing = throw new NoSuchElementException
+
+    override def leftChild: BinaryTree[Nothing] = throw new NoSuchElementException
+
+    override def rightChild: BinaryTree[Nothing] = throw new NoSuchElementException
+
+    override def isEmpty: Boolean = true
+
+    override def isLeaf: Boolean = false
+
+    override def collectLeaves: List[BinaryTree[Nothing]] = List()
+
+    override def countLeaves: Int = 0
+
+    override def nodesAtLevel(level: Int): List[BinaryTree[Nothing]] = {
+      List()
+    }
   }
 
   val tree = Node(1,
@@ -56,6 +66,8 @@ object Solution11 extends App {
     override def isEmpty: Boolean = false
 
     override def isLeaf: Boolean = leftChild.isEmpty && rightChild.isEmpty
+
+    override def countLeaves: Int = collectLeaves.size
 
     override def collectLeaves: List[BinaryTree[T]] = {
       import scala.annotation.tailrec
@@ -79,11 +91,43 @@ object Solution11 extends App {
         }
         loop(result ::: toInspect.tail, result1)
       }
+
       loop()
     }
 
-    override def toString: String = this.value.toString
+    override def nodesAtLevel(level: Int): List[BinaryTree[T]] = {
+
+      import scala.annotation.tailrec
+      @tailrec
+      def loop(queue1: List[BinaryTree[T]] = List[BinaryTree[T]](this),
+               queue2: List[BinaryTree[T]] = List[BinaryTree[T]](),
+               list: List[BinaryTree[T]] = List(),
+               levelLocal: Int = 0): List[BinaryTree[T]] = {
+
+        var queue2Result = List[BinaryTree[T]]()
+        if (queue1.nonEmpty && !queue1.head.rightChild.isEmpty) {
+          queue2Result = queue2Result :+ queue1.head.rightChild
+        }
+
+        if (queue1.nonEmpty && !queue1.head.leftChild.isEmpty) {
+          queue2Result = queue2Result :+ queue1.head.leftChild
+        }
+
+        if (queue1.nonEmpty) {
+          loop(queue1.tail, queue2Result ::: queue2, list :+ queue1.head, levelLocal)
+        } else if (queue2.nonEmpty && level != levelLocal) {
+          loop(queue2, queue1, List(), levelLocal + 1)
+        } else if (level == levelLocal) {
+          list
+        } else {
+          List()
+        }
+      }
+      loop()
+    }
+
   }
 
-  println(tree.collectLeaves.sortBy(_.value))
+  println(tree.nodesAtLevel(4))
+  println()
 }
