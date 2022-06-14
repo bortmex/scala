@@ -29,18 +29,26 @@ object Solution10 extends App{
   )
 
   object Service {
-    def findUser(users: List[User], name: String): List[User] = users.filter(_.name == name)
+    def findUser(users: List[User], name: String): Option[User] = users.find(_.name == name)
   }
 
   def getBf(user: User): Option[User] = {
-
-    user.bf match {
-      case null => Option.empty
-      case _ => Option(user.bf)
+    if(matchUser(user)) {
+      Option(user.bf)
+    } else {
+      Option.empty
     }
   }
 
-  val bf = Service.findUser(users, "Mike").flatMap(getBf).flatMap(getBf)
-//TODO доделать.....
-  println(if (bf.isEmpty) "No bf" else bf.map(_.name).head.orElse("No user"))
+  def matchUser[T](user: T): Boolean = {
+    user match {
+      case User(name, bf) => true
+      case _ => false
+    }
+  }
+
+  val user: Option[User] = Service.findUser(users, "Mike1")
+  val bf = user.flatMap(getBf).flatMap(getBf)
+
+  println(if(user.isEmpty) "No user" else if(bf.isEmpty) "No bf" else bf.map(_.name).head)
 }
