@@ -5,11 +5,12 @@ package com.rog.teach.simple.stepik2.exercises.week2
 //  в объекте Price задается имплиситный класс PriceOps, который вам доступен для модификации
 //  конечный результат при тестировании выводится через println(Price(price) - discount) - это прописано за вас
 object Solution3 extends App {
-  case class Price(price: Int) {
-    implicit class PriceOps(p: Price) {
-      def minus(n: Int): Price = Price(p.price - n)
-    }
+  case class Price(price: Int){
   }
-//TODO я устал я ухожу...
+
+  implicit class PriceOps(p: Price) {
+    def -(n: Int): Int = p.price - n
+  }
+
   println(Price(500) - 50)
 }
