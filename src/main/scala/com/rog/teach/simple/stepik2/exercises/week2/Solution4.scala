@@ -10,9 +10,23 @@ object Solution4 extends App {
   case class Customer(id: String, name: String)
 
   case class Order(orderId: String, customer: Customer, date: String)
-//TODO ушел за хлебом
 
-//  trait InfoProvider[T] {
-//    def info(value: T): String
-//  }
+  trait Check {
+    def compare(order: Order, orderB: Order): Boolean
+  }
+
+  object CustomerCheck extends Check {
+    def compare(order: Order, orderB: Order): Boolean = {
+      order.customer.id == orderB.customer.id
+    }
+  }
+
+  object DateAndCustomerCheck extends Check {
+    def compare(order: Order, orderB: Order): Boolean = {
+      order.orderId == orderB.orderId && order.customer.id == orderB.customer.id && order.date == orderB.date
+    }
+  }
+
+    println(CustomerCheck.compare(Order("1", "sdf", "sdf"), "1"))
+    println(DateAndCustomerCheck.compare(order, newOrder))
 }
