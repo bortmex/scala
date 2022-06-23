@@ -27,6 +27,6 @@ object Solution4 extends App {
     }
   }
 
-    println(CustomerCheck.compare(Order("1", "sdf", "sdf"), "1"))
-    println(DateAndCustomerCheck.compare(order, newOrder))
+//    println(CustomerCheck.compare(Order("1", "sdf", "sdf"), "1"))
+//    println(DateAndCustomerCheck.compare(order, newOrder))
 }
